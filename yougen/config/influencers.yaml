@@ -1,0 +1,41 @@
+# 大V列表配置
+# 添加你想要监控的大V账号
+
+influencers:
+  # 示例配置
+  - username: "elonmusk"
+    user_id: "44196397"
+    priority: "high"        # high, medium, low
+    check_interval: 10      # 检查间隔（分钟）
+    topics:
+      - "tech"
+      - "AI"
+      - "space"
+    notes: "Tesla/SpaceX CEO，关注技术和创新话题"
+  - username: "sama"
+    user_id: ""
+    priority: "high"        # high, medium, low
+    check_interval: 10      # 检查间隔（分钟）
+    topics:
+      - "AI"
+      - "tech"
+    notes: "OpenAI CEO"
+
+  # 添加更多大V
+  # - username: "sama"
+  #   user_id: ""           # 首次运行时会自动填充
+  #   priority: "high"
+  #   check_interval: 10
+  #   topics:
+  #     - "AI"
+  #     - "startup"
+  #   notes: "OpenAI CEO"
+
+  # - username: "karpathy"
+  #   user_id: ""
+  #   priority: "medium"
+  #   check_interval: 15
+  #   topics:
+  #     - "AI"
+  #     - "ML"
+  #   notes: "AI研究者"

@@ -1,0 +1,19 @@
+[project]
+name = "argo"
+version = "0.1.0"
+description = "X涨粉助手 - 智能评论生成工具"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "claude-agent-sdk>=0.1.20",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+]
+
+[project.scripts]
+growth = "argo.growth.cli.main:main"

@@ -1,0 +1,34 @@
+# 系统设置
+
+# 速率限制设置
+rate_limit:
+  delay_seconds: 2                    # bird CLI调用间隔（防止限流）
+  max_concurrent_generations: 3       # 最大并发生成评论数
+
+# 推文收集设置
+collection:
+  max_tweets_per_scan: 10       # 每次扫描最多处理的推文数
+  max_tweet_age_minutes: 30     # 只处理N分钟内的新推文
+
+# 趋势分析设置
+trend_analysis:
+  min_score: 60.0               # 最低趋势评分（0-100）
+  like_weight: 1.0
+  retweet_weight: 2.0
+  reply_weight: 1.5
+
+# 评论设置
+comments:
+  max_per_hour: 30               # 每小时最多发布评论数
+  check_duplicate_hours: 1     # N小时内不重复评论同一作者
+  require_approval: true        # 是否需要人工审核
+
+# 路径设置
+paths:
+  data_dir: "./argo/growth/data"
+  config_dir: "./argo/growth/config"
+
+# 日志设置
+logging:
+  level: "INFO"                 # DEBUG, INFO, WARNING, ERROR
+  file: "./argo/growth/growth.log"

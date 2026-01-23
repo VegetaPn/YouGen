@@ -1,0 +1,32 @@
+{
+  "last_updated": "2026-01-23T16:34:52.235411+00:00",
+  "influencers": [
+    {
+      "username": "elonmusk",
+      "user_id": "44196397",
+      "priority": "high",
+      "check_interval": 10,
+      "topics": [
+        "tech",
+        "AI",
+        "space"
+      ],
+      "notes": "Tesla/SpaceX CEO，关注技术和创新话题",
+      "added_at": "2026-01-24T00:34:46.260776",
+      "last_checked": "2026-01-23T16:34:50.476172+00:00"
+    },
+    {
+      "username": "sama",
+      "user_id": "",
+      "priority": "high",
+      "check_interval": 10,
+      "topics": [
+        "AI",
+        "tech"
+      ],
+      "notes": "OpenAI CEO",
+      "added_at": "2026-01-24T00:34:46.260783",
+      "last_checked": "2026-01-23T16:34:52.235404+00:00"
+    }
+  ]
+}

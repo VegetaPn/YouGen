@@ -1,0 +1,17 @@
+{
+  "id": "2014733975755817267",
+  "author": {
+    "username": "sama",
+    "user_id": "1605",
+    "name": "Sam Altman",
+    "followers": null
+  },
+  "text": "We have a lot of exciting launches related to Codex coming over the next month, starting next week. We hope you will be delighted.\n\nWe are going to reach the Cybersecurity High level on our preparedness framework soon. We have been getting ready for this.\n\nCybersecurity is tricky and inherently dual-use; we believe the best thing for the world is for security issues to get patched quickly. We will start with product restrictions, like attempting to block people using our coding models to commit cybercrime (eg ‘hack into this bank and steal the money’).\n\nLong-term and as we can support it with evidence, we plan to move to defensive acceleration—helping people patch bugs—as the primary mitigation.\n\nIt is very important the world adopts these tools quickly to make software more secure. There will be many very capable models in the world soon.",
+  "created_at": "2026-01-23T16:16:26+00:00",
+  "like_count": 873,
+  "retweet_count": 76,
+  "reply_count": 250,
+  "conversation_id": "2014733975755817267",
+  "trending_score": 0.0,
+  "discovered_at": "2026-01-23T16:34:52.232943+00:00"
+}
