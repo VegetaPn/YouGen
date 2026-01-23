@@ -4,6 +4,20 @@ A semi-automated tool to grow your X/Twitter followers by commenting on influenc
 
 [中文文档](README_CN.md)
 
+## Background
+
+Hey everyone! I have a dream – to become a certified Meme Lord 🎭.
+
+To achieve this noble goal, I used to spend hours every day scrolling through Twitter, hunting for viral tweets, and practicing my witty comments. But here's the problem: this approach is incredibly inefficient, and writing comments by myself doesn't really help me improve. I was stuck in a loop, never getting closer to becoming a true Meme Master.
+
+So I thought, why not build a tool to help me? That's how **YouGen** (有梗, meaning "having memes/jokes" in Chinese) was born – an AI-powered assistant that:
+- Automatically discovers trending tweets
+- Generates witty comments using Claude Opus 4.5
+- Helps me learn by reviewing and refining AI-generated content
+- Lets me focus on the creative part while handling the tedious work
+
+The initial version is now complete and **open-sourced**. Whether you're aspiring to be a Meme Lord like me, or just want to grow your Twitter presence more efficiently, feel free to use it!
+
 ## Features
 
 - 🤖 AI-powered comment generation using Claude Opus 4.5
