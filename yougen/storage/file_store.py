@@ -20,6 +20,7 @@ class FileStore:
         dirs = [
             self.data_dir / "influencers",
             self.data_dir / "tweets",
+            self.data_dir / "filtered_tweets",
             self.data_dir / "comments" / "pending",
             self.data_dir / "comments" / "approved",
             self.data_dir / "comments" / "rejected",
@@ -87,6 +88,29 @@ class FileStore:
                 return True
 
         return False
+
+    def save_filtered_tweet(self, tweet: Tweet):
+        """保存被过滤的推文
+
+        按日期和过滤原因组织：filtered_tweets/{date}/{reason_slug}/
+        用于后续分析和优化过滤规则
+        """
+        date_str = tweet.created_at.strftime("%Y-%m-%d")
+
+        # 生成原因slug（用于目录名）
+        reason_slug = "unknown"
+        if tweet.filtered_reason:
+            # 简化原因字符串作为目录名
+            reason_slug = tweet.filtered_reason.replace(' ', '_').replace('/', '_')[:50]
+        elif tweet.quality_issues:
+            reason_slug = '_'.join(tweet.quality_issues[:2])
+
+        filter_dir = self.data_dir / "filtered_tweets" / date_str / reason_slug
+        filter_dir.mkdir(parents=True, exist_ok=True)
+
+        file_path = filter_dir / f"{tweet.author.username}_{tweet.id}.json"
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(tweet.to_dict(), f, indent=2, ensure_ascii=False)
 
     # ============ Comments管理 ============
 

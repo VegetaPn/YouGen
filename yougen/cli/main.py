@@ -12,9 +12,11 @@ from yougen.core.browser_client import BrowserClient
 from yougen.core.tweet_collector import TweetCollector
 from yougen.core.trend_analyzer import TrendAnalyzer
 from yougen.core.comment_generator import CommentGenerator
+from yougen.core.quality_filter import TweetQualityFilter
 from yougen.storage.file_store import FileStore
 from yougen.storage.models import Influencer
 from yougen.cli.reviewer import run_review
+from yougen.config import load_settings, get_quality_filter_config
 
 
 class YouGen:
@@ -42,7 +44,12 @@ class YouGen:
             use_cdp=use_cdp,  # 默认使用 CDP 模式连接真实 Chrome
             cdp_port=9222  # CDP 端口
         )
-        self.collector = TweetCollector(self.bird, self.store)
+
+        # 创建质量过滤器
+        filter_config = get_quality_filter_config(self.settings)
+        quality_filter = TweetQualityFilter(filter_config) if filter_config.get('enabled') else None
+
+        self.collector = TweetCollector(self.bird, self.store, quality_filter)
         self.analyzer = TrendAnalyzer(
             like_weight=self.settings['trend_analysis']['like_weight'],
             retweet_weight=self.settings['trend_analysis']['retweet_weight'],

@@ -10,6 +10,25 @@ collection:
   max_tweets_per_scan: 10       # 每次扫描最多处理的推文数
   max_tweet_age_minutes: 30     # 只处理N分钟内的新推文
 
+# 质量过滤器设置
+quality_filter:
+  enabled: true
+
+  rules:
+    min_text_length: 20
+    filter_media_only: true
+    filter_reply_without_context: true
+    filter_external_references: true
+
+  ai_analysis:
+    enabled: true
+    min_quality_score: 60.0
+    batch_size: 5
+    max_concurrent: 3
+    model: 'claude-sonnet-4-5-20250929'
+    timeout_seconds: 30
+    on_failure: 'pass'
+
 # 趋势分析设置
 trend_analysis:
   min_score: 60.0               # 最低趋势评分（0-100）
@@ -27,6 +46,7 @@ comments:
 paths:
   data_dir: "./argo/growth/data"
   config_dir: "./argo/growth/config"
+  filtered_tweets_dir: "./argo/growth/data/filtered_tweets"
 
 # 日志设置
 logging:

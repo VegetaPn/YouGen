@@ -37,6 +37,19 @@ class Tweet:
     trending_score: float = 0.0
     discovered_at: Optional[datetime] = None
 
+    # 过滤相关字段
+    is_reply: bool = False
+    in_reply_to_status_id: Optional[str] = None
+    quoted_tweet_id: Optional[str] = None
+    media: List[Dict[str, Any]] = field(default_factory=list)
+    urls: List[str] = field(default_factory=list)
+    has_quoted_content: bool = False
+
+    # 质量评分字段
+    quality_score: Optional[float] = None
+    quality_issues: List[str] = field(default_factory=list)
+    filtered_reason: Optional[str] = None
+
     @classmethod
     def from_bird_json(cls, data: Dict[str, Any]) -> 'Tweet':
         """从bird CLI返回的JSON创建Tweet对象"""
@@ -53,6 +66,17 @@ class Tweet:
             name=data['author']['name']
         )
 
+        # 解析过滤相关字段
+        in_reply_to = data.get('inReplyToStatusId')
+        quoted_id = data.get('quotedStatusId')
+        media_list = data.get('media', [])
+        urls_list = []
+
+        # 从entities中提取URLs
+        if 'entities' in data and 'urls' in data['entities']:
+            urls_list = [url_obj.get('expanded_url', url_obj.get('url', ''))
+                        for url_obj in data['entities']['urls']]
+
         return cls(
             id=data['id'],
             author=author,
@@ -62,7 +86,14 @@ class Tweet:
             retweet_count=data.get('retweetCount', 0),
             reply_count=data.get('replyCount', 0),
             conversation_id=data['conversationId'],
-            discovered_at=datetime.now(timezone.utc)
+            discovered_at=datetime.now(timezone.utc),
+            # 过滤相关字段
+            is_reply=in_reply_to is not None,
+            in_reply_to_status_id=in_reply_to,
+            quoted_tweet_id=quoted_id,
+            has_quoted_content=quoted_id is not None,
+            media=media_list if isinstance(media_list, list) else [],
+            urls=urls_list
         )
 
     def age_minutes(self) -> float:
@@ -83,7 +114,18 @@ class Tweet:
             'reply_count': self.reply_count,
             'conversation_id': self.conversation_id,
             'trending_score': self.trending_score,
-            'discovered_at': self.discovered_at.isoformat() if self.discovered_at else None
+            'discovered_at': self.discovered_at.isoformat() if self.discovered_at else None,
+            # 过滤相关字段
+            'is_reply': self.is_reply,
+            'in_reply_to_status_id': self.in_reply_to_status_id,
+            'quoted_tweet_id': self.quoted_tweet_id,
+            'media': self.media,
+            'urls': self.urls,
+            'has_quoted_content': self.has_quoted_content,
+            # 质量评分字段
+            'quality_score': self.quality_score,
+            'quality_issues': self.quality_issues,
+            'filtered_reason': self.filtered_reason
         }
 
     @classmethod
@@ -99,7 +141,18 @@ class Tweet:
             reply_count=data['reply_count'],
             conversation_id=data['conversation_id'],
             trending_score=data.get('trending_score', 0.0),
-            discovered_at=datetime.fromisoformat(data['discovered_at']) if data.get('discovered_at') else None
+            discovered_at=datetime.fromisoformat(data['discovered_at']) if data.get('discovered_at') else None,
+            # 过滤相关字段
+            is_reply=data.get('is_reply', False),
+            in_reply_to_status_id=data.get('in_reply_to_status_id'),
+            quoted_tweet_id=data.get('quoted_tweet_id'),
+            has_quoted_content=data.get('has_quoted_content', False),
+            media=data.get('media', []),
+            urls=data.get('urls', []),
+            # 质量评分字段
+            quality_score=data.get('quality_score'),
+            quality_issues=data.get('quality_issues', []),
+            filtered_reason=data.get('filtered_reason')
         )
 
 

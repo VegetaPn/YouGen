@@ -1,6 +1,6 @@
 """推文收集器"""
 
-from typing import List
+from typing import List, Optional
 from datetime import datetime, timezone, timedelta
 from yougen.core.bird_client import BirdClient, BirdClientError
 from yougen.storage.models import Tweet, Influencer
@@ -13,10 +13,12 @@ class TweetCollector:
     def __init__(
         self,
         bird_client: BirdClient,
-        file_store: FileStore
+        file_store: FileStore,
+        quality_filter: Optional['TweetQualityFilter'] = None
     ):
         self.bird = bird_client
         self.store = file_store
+        self.quality_filter = quality_filter
 
     def collect_from_influencers(
         self,
@@ -51,7 +53,18 @@ class TweetCollector:
 
                 # 去重（检查是否已处理）
                 new_tweets = self._filter_processed(recent)
-                print(f"   {len(new_tweets)} new tweets after filtering")
+                print(f"   {len(new_tweets)} new tweets after deduplication")
+
+                # 质量过滤
+                if self.quality_filter and new_tweets:
+                    passed, filtered = self.quality_filter.filter_batch(new_tweets)
+                    print(f"   ✅ {len(passed)} passed quality filter, {len(filtered)} filtered")
+
+                    # 保存被过滤的推文
+                    for tweet in filtered:
+                        self.store.save_filtered_tweet(tweet)
+
+                    new_tweets = passed
 
                 # 保存推文
                 for tweet in new_tweets:
@@ -85,7 +98,6 @@ class TweetCollector:
         # 1. 检查推文是否已存在
         new_tweets = [t for t in tweets if not self.store.tweet_exists(t.id)]
 
-        # 2. 检查是否在最近24小时内评论过同一作者
         recent_authors = self.store.get_recent_commented_authors(hours=0)
 
         return [
